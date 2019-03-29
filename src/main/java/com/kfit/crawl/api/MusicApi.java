@@ -3,6 +3,8 @@ package com.kfit.crawl.api;
 import com.kfit.crawl.bean.AlbumInfo.AlbumInfoBean;
 import com.kfit.crawl.bean.AlbumList.AlbumListBean;
 import com.kfit.crawl.bean.AlbumSongList.AlbumSongListBean;
+import com.kfit.crawl.bean.rankList.RankResponseBean;
+import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
 import com.kfit.crawl.bean.songDetail.SongDetailBean;
 import retrofit2.Call;
@@ -63,4 +65,24 @@ public interface MusicApi {
      */
     @GET("/api/v3/special/song?with_cover=1&plat=0&page=1&pagesize=-1&area_code=1&version=9156&with_res_tag=1")
     Call<AlbumSongListBean> getAlbumSongList(@Query("specialid") int specialid);
+
+
+    /**
+     * 获取新歌榜期数 rankid =（31312日本新歌）（31310欧美新歌）（4681美国热歌榜）（4673日本热歌榜）
+     * http://mobilecdn.kugou.com/api/v3/rank/vol?plat=0&ranktype=1&rankid=31312&with_res_tag=1
+     *
+     * @param id
+     * @return
+     */
+    @GET("/api/v3/rank/vol?plat=0&ranktype=1&with_res_tag=1")
+    Call<RankResponseBean> getRank(@Query("rankid") int id);
+
+    /**
+     * 获取榜单歌曲
+     * http://mobilecdn.kugou.com/api/v3/rank/song?rankid=31312&volid=35912&area_code=1&version=9156&ranktype=1&plat=0&page=1&pagesize=100&with_res_tag=1
+     *
+     * @return
+     */
+    @GET("/api/v3/rank/song?area_code=1&version=9156&ranktype=1&plat=0&page=1&pagesize=100&with_res_tag=1")
+    Call<RankSongListBean> getRankSongs(@Query("rankid") int rankId, @Query("volid") int volId);
 }
