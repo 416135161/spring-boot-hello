@@ -1,6 +1,5 @@
 package com.kfit.crawl.api;
 
-import com.sun.javafx.tools.packager.Log;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -26,7 +25,6 @@ public class HttpUtil {
         //添加日志打印拦截器
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             public void log(String s) {
-                Log.info(s);
                 System.out.print(s);
             }
         });

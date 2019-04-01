@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kfit</groupId>
-    <artifactId>sprint-boot-hello</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>music-service</artifactId>
+    <version>1.0.0</version>
     <packaging>war</packaging>
 
     <name>spring-boot-hello</name>

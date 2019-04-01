@@ -3,13 +3,17 @@ package com.kfit.music.controller;
 import com.kfit.crawl.tools.AcquireDataTool;
 import com.kfit.music.bean.Album;
 import com.kfit.music.bean.Song;
+import com.kfit.music.service.AlbumService;
+import com.kfit.music.service.RankService;
 import com.kfit.music.tools.Contants;
+import com.kfit.music.tools.SongTool;
 import com.kfit.music.tools.Transform;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +21,11 @@ import java.util.List;
 @RequestMapping("/v1/music")
 public class MusicController {
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public List<Song> getNewSongs() {
-        return null;
-    }
+    @Resource
+    private RankService rankService;
+
+    @Resource
+    private AlbumService albumService;
 
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -36,56 +41,41 @@ public class MusicController {
 
     @RequestMapping(value = "/albums", method = RequestMethod.GET)
     public List<Album> getAlbums(@RequestParam(value = "from", required = false, defaultValue = "0") int from,
-                                 @RequestParam(value = "pageSize", required = false, defaultValue = "30") Integer pageSize) {
-        if(Contants.albumListMap != null && Contants.albumListMap.get(from) != null){
-            return Contants.albumListMap.get(from);
-        }
-        try {
-            int special_tag_id = AcquireDataTool.getAlbumInfo(from);
-            if (special_tag_id == -1) {
-                return new ArrayList<>();
-            }
-            List<Album> albumList = Transform.transformAlbumList(AcquireDataTool.getAlbumList(special_tag_id, pageSize));
-            if (albumList == null || albumList.size() == 0) {
-                return new ArrayList<>();
-            }
-            for (Album album : albumList) {
-                List<Song> songList = Transform.transformAlbumSongList(AcquireDataTool.getAlbumSongList(album.getId()));
-                if (songList != null && songList.size() > 0) {
-                    album.setName(songList.get(0).getSingerName());
-                }
-            }
-            Contants.albumListMap.put(from, albumList);
-            return albumList;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+                                 @RequestParam(value = "pageSize", required = false, defaultValue = "50") Integer pageSize) {
+        return albumService.getAlbums(from, pageSize);
     }
 
     @RequestMapping(value = "/album/songs", method = RequestMethod.GET)
     public List<Song> getAlbumSongs(@RequestParam(value = "id") int specialId) {
-
-        if(Contants.albumSongListMap != null && Contants.albumSongListMap.get(specialId) != null){
-            return Contants.albumSongListMap.get(specialId);
-        }
-
-        try {
-            List<Song> songList = Transform.transformAlbumSongList(AcquireDataTool.getAlbumSongList(specialId));
-            if (songList != null && songList.size() > 0) {
-                for (Song item : songList) {
-                    Song song = Transform.detailResponse2Song(AcquireDataTool.getSongDetail(item.getHash()));
-                    item.setImgUrl(song.getImgUrl());
-                    item.setSingerName(song.getSingerName());
-                    item.setSongName(song.getSongName());
-                    item.setDuration(song.getDuration());
-                }
-                Contants.albumSongListMap.put(specialId, songList);
-            }
-            return songList;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
+       return albumService.getAlbumSongs(specialId);
     }
+
+    @RequestMapping(value = "/hot", method = RequestMethod.GET)
+    public List<Song> getHotSongs(@RequestParam(value = "from", required = false, defaultValue = "0") int from) {
+        int rankId;
+        if (from == Contants.FROM_US) {
+            rankId = Contants.US_HOT;
+        } else if (from == Contants.FROM_JAPAN) {
+            rankId = Contants.JAPAN_HOT;
+        } else {
+            return new ArrayList<>();
+        }
+        return rankService.getRankSongs(rankId);
+    }
+
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public List<Song> getNewSongs(@RequestParam(value = "from", required = false, defaultValue = "0") int from) {
+        int rankId;
+        if (from == Contants.FROM_US) {
+            rankId = Contants.US_NEW;
+        } else if (from == Contants.FROM_JAPAN) {
+            rankId = Contants.JAPAN_NEW;
+        } else {
+            return new ArrayList<>();
+        }
+        return rankService.getRankSongs(rankId);
+    }
+
+
 }

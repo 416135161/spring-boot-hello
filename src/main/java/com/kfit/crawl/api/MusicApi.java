@@ -63,8 +63,8 @@ public interface MusicApi {
      * @param specialid 从上面接口获取specialid
      * @return
      */
-    @GET("/api/v3/special/song?with_cover=1&plat=0&page=1&pagesize=-1&area_code=1&version=9156&with_res_tag=1")
-    Call<AlbumSongListBean> getAlbumSongList(@Query("specialid") int specialid);
+    @GET("/api/v3/special/song?with_cover=1&plat=0&page=1&area_code=1&version=9156&with_res_tag=1")
+    Call<AlbumSongListBean> getAlbumSongList(@Query("specialid") int specialid, @Query("pagesize") int pageSize);
 
 
     /**

@@ -2,8 +2,6 @@ package com.kfit.crawl.bean.ranksongs;
 
 public class Info {
 
-    private int m4afilesize;
-
     private int price_sq;
 
     private int first;
@@ -24,14 +22,11 @@ public class Info {
 
     private String topic_url;
 
-
     private int pkg_price;
 
     private int feetype;
 
     private String filename;
-
-    private int price_320;
 
     private String extname;
 
@@ -80,17 +75,6 @@ public class Info {
     private int sqprivilege;
 
     private int sqfilesize;
-
-    private String topic_url_320;
-
-
-    public void setM4afilesize(int m4afilesize) {
-        this.m4afilesize = m4afilesize;
-    }
-
-    public int getM4afilesize() {
-        return this.m4afilesize;
-    }
 
     public void setPrice_sq(int price_sq) {
         this.price_sq = price_sq;
@@ -194,14 +178,6 @@ public class Info {
 
     public String getFilename() {
         return this.filename;
-    }
-
-    public void setPrice_320(int price_320) {
-        this.price_320 = price_320;
-    }
-
-    public int getPrice_320() {
-        return this.price_320;
     }
 
     public void setExtname(String extname) {
@@ -378,14 +354,6 @@ public class Info {
 
     public int getSqfilesize() {
         return this.sqfilesize;
-    }
-
-    public void setTopic_url_320(String topic_url_320) {
-        this.topic_url_320 = topic_url_320;
-    }
-
-    public String getTopic_url_320() {
-        return this.topic_url_320;
     }
 
 }

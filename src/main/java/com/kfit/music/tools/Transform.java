@@ -89,4 +89,22 @@ public final class Transform {
     }
 
 
+    public synchronized static List<Song> transformRandSongList(List<com.kfit.crawl.bean.ranksongs.Info> infoList) {
+        if (infoList != null && infoList.size() > 0) {
+            List<Song> songList = new ArrayList<>();
+            for (com.kfit.crawl.bean.ranksongs.Info item : infoList) {
+                Song song = new Song();
+                song.setHash(item.getHash());
+                if (item.getFilename() != null && item.getFilename().contains("-")) {
+                    String[] names = item.getFilename().split("-");
+                    song.setSingerName(names[0]);
+                    song.setSongName(names[1]);
+                }
+                songList.add(song);
+            }
+            return songList;
+        }
+        return null;
+    }
+
 }

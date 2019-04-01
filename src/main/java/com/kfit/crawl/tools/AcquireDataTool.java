@@ -5,15 +5,15 @@ import com.kfit.crawl.api.MusicApi;
 import com.kfit.crawl.bean.AlbumInfo.AlbumInfoBean;
 import com.kfit.crawl.bean.AlbumList.AlbumListBean;
 import com.kfit.crawl.bean.AlbumList.Data;
-import com.kfit.crawl.bean.AlbumList.Info;
 import com.kfit.crawl.bean.AlbumSongList.AlbumSongListBean;
+import com.kfit.crawl.bean.rankList.RankResponseBean;
+import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
 import com.kfit.crawl.bean.songDetail.SongDetailBean;
 import com.kfit.music.tools.Contants;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 public class AcquireDataTool {
@@ -28,7 +28,7 @@ public class AcquireDataTool {
             } else {
                 return response.body();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -43,7 +43,7 @@ public class AcquireDataTool {
             } else {
                 return response.body();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -52,19 +52,21 @@ public class AcquireDataTool {
     static public int getAlbumInfo(int from) {
         if (from == Contants.FROM_JAPAN) {
             from = 29;
-        } else {
+        } else if (from == Contants.FROM_US) {
             from = 27;
+        } else {
+            return -1;
         }
         int special_tag_id = -1;
         try {
             Call<AlbumInfoBean> callAlbumInfo = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getAlbumInfo(from);
-            Response<AlbumInfoBean> responseAlbumInfo  = callAlbumInfo.execute();
+            Response<AlbumInfoBean> responseAlbumInfo = callAlbumInfo.execute();
             if (responseAlbumInfo.isSuccessful() && responseAlbumInfo.body() != null && responseAlbumInfo.body().getData() != null) {
                 special_tag_id = responseAlbumInfo.body().getData().getSpecial_tag_id();
                 System.out.println(special_tag_id);
 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return special_tag_id;
@@ -79,24 +81,58 @@ public class AcquireDataTool {
                 Data data = responseAlbumList.body().getData();
                 return data.getInfo();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    static public List<com.kfit.crawl.bean.AlbumSongList.Info> getAlbumSongList(int specialId) {
+    static public List<com.kfit.crawl.bean.AlbumSongList.Info> getAlbumSongList(int specialId, int pageSize) {
 
         try {
-            Call<AlbumSongListBean> callAlbumSongList = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getAlbumSongList(specialId);
+            Call<AlbumSongListBean> callAlbumSongList = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getAlbumSongList(specialId, pageSize);
             Response<AlbumSongListBean> responseAlbumSongList = callAlbumSongList.execute();
             if (responseAlbumSongList.isSuccessful() && responseAlbumSongList.body() != null && responseAlbumSongList.body().getData() != null) {
                 return responseAlbumSongList.body().getData().getInfo();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
 
     }
+
+    static public List<com.kfit.crawl.bean.rankList.Vols> getRandList(int id) {
+        try {
+            Call<RankResponseBean> rankResponseBeanCall = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getRank(id);
+            Response<RankResponseBean> rankResponseBean = rankResponseBeanCall.execute();
+            if (rankResponseBean.isSuccessful() && rankResponseBean.body() != null && rankResponseBean.body().getData() != null) {
+                com.kfit.crawl.bean.rankList.Data data = rankResponseBean.body().getData();
+                if (data.getInfo() != null && data.getInfo().size() > 0) {
+                    com.kfit.crawl.bean.rankList.Info info = data.getInfo().get(0);
+                    if (info != null) {
+                        return info.getVols();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static public List<com.kfit.crawl.bean.ranksongs.Info> getRandSongList(int rankId, int volId) {
+        try {
+            Call<RankSongListBean> rankSongListBeanCall = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getRankSongs(rankId, volId);
+            Response<RankSongListBean> rankSongListBean = rankSongListBeanCall.execute();
+            if (rankSongListBean.isSuccessful() && rankSongListBean.body() != null && rankSongListBean.body().getData() != null) {
+                return rankSongListBean.body().getData().getInfo();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

@@ -20,6 +20,6 @@ public class MusicTestController {
 
     @RequestMapping(value = "/albums/songs/test", method = RequestMethod.GET)
     public List<com.kfit.crawl.bean.AlbumSongList.Info> getAlbumsSongTest() {
-        return AcquireDataTool.getAlbumSongList(635177);
+        return AcquireDataTool.getAlbumSongList(635177, 1);
     }
 }
