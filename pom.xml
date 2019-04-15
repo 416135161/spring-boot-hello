@@ -4,7 +4,7 @@
 
     <groupId>com.kfit</groupId>
     <artifactId>music-service</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>war</packaging>
 
     <name>spring-boot-hello</name>
@@ -66,18 +66,18 @@
             <scope>true</scope>
         </dependency>
 
-        <!-- 添加MySQL数据库驱动依赖包. -->
+        <!-- 添加MySQL数据库驱动依赖包.
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-        <!-- 添加Spring-data-jpa依赖. -->
+-->
+        <!-- 添加Spring-data-jpa依赖.
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
+-->
         <!-- office文档组件
         <dependency>
             <groupId>org.apache.poi</groupId>

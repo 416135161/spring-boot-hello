@@ -4,9 +4,9 @@ import com.kfit.crawl.tools.AcquireDataTool;
 import com.kfit.music.bean.Album;
 import com.kfit.music.bean.Song;
 import com.kfit.music.service.AlbumService;
+import com.kfit.music.service.EuropeService;
 import com.kfit.music.service.RankService;
 import com.kfit.music.tools.Contants;
-import com.kfit.music.tools.SongTool;
 import com.kfit.music.tools.Transform;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/music")
 public class MusicController {
 
     @Resource
@@ -26,6 +25,9 @@ public class MusicController {
 
     @Resource
     private AlbumService albumService;
+
+    @Resource
+    private EuropeService europeService;
 
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -47,7 +49,7 @@ public class MusicController {
 
     @RequestMapping(value = "/album/songs", method = RequestMethod.GET)
     public List<Song> getAlbumSongs(@RequestParam(value = "id") int specialId) {
-       return albumService.getAlbumSongs(specialId);
+        return albumService.getAlbumSongs(specialId);
     }
 
     @RequestMapping(value = "/hot", method = RequestMethod.GET)
@@ -75,6 +77,17 @@ public class MusicController {
             return new ArrayList<>();
         }
         return rankService.getRankSongs(rankId);
+    }
+
+    @RequestMapping(value = "europe/albums", method = RequestMethod.GET)
+    public List<Album> getEuropeAlbums(@RequestParam(value = "from", required = false, defaultValue = "0") int from,
+                                       @RequestParam(value = "pageSize", required = false, defaultValue = "50") Integer pageSize) {
+        return europeService.getAlbums(from, pageSize);
+    }
+
+    @RequestMapping(value = "europe/album/songs", method = RequestMethod.GET)
+    public List<Song> getEuropeAlbumSongs(@RequestParam(value = "id") int id) {
+        return europeService.getAlbumSongs(id);
     }
 
 

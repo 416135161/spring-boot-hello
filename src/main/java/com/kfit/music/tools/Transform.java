@@ -1,5 +1,7 @@
 package com.kfit.music.tools;
 
+import com.kfit.crawl.bean.europ.EuropAlbumListResopnse;
+import com.kfit.crawl.bean.europ.EuropSongListResponse;
 import com.kfit.crawl.bean.search.Info;
 import com.kfit.crawl.bean.search.SearchResponseBean;
 import com.kfit.crawl.bean.songDetail.Data;
@@ -93,6 +95,40 @@ public final class Transform {
         if (infoList != null && infoList.size() > 0) {
             List<Song> songList = new ArrayList<>();
             for (com.kfit.crawl.bean.ranksongs.Info item : infoList) {
+                Song song = new Song();
+                song.setHash(item.getHash());
+                if (item.getFilename() != null && item.getFilename().contains("-")) {
+                    String[] names = item.getFilename().split("-");
+                    song.setSingerName(names[0]);
+                    song.setSongName(names[1]);
+                }
+                songList.add(song);
+            }
+            return songList;
+        }
+        return null;
+    }
+
+
+    public synchronized static List<Album> transformEuropeAlbumList(List<EuropAlbumListResopnse.DataBean.InfoBean> infoList) {
+        if (infoList != null && infoList.size() > 0) {
+            List<Album> albumList = new ArrayList<>();
+            for (EuropAlbumListResopnse.DataBean.InfoBean item : infoList) {
+                Album album = new Album();
+                album.setId(item.getAlbumid());
+                album.setImgUrl(item.getImgurl().replace("{size}", "240"));
+                album.setName(item.getAlbumname());
+                albumList.add(album);
+            }
+            return albumList;
+        }
+        return null;
+    }
+
+    public synchronized static List<Song> transformEuropeAlbumSongList(List<EuropSongListResponse.DataBean.InfoBean> infoList) {
+        if (infoList != null && infoList.size() > 0) {
+            List<Song> songList = new ArrayList<>();
+            for (EuropSongListResponse.DataBean.InfoBean item : infoList) {
                 Song song = new Song();
                 song.setHash(item.getHash());
                 if (item.getFilename() != null && item.getFilename().contains("-")) {

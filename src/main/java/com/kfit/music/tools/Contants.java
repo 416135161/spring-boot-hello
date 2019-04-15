@@ -23,8 +23,18 @@ public class Contants {
     public static final int FROM_US = 0;
     public static final int FROM_JAPAN = 1;
 
+    /**
+     * 欧美资源分类
+     */
+    public static final int EUROP_POP = 1051;
+    public static final int EUROP_COUNTRY = 1065;
+
     public static HashMap<Integer, List<Album>> albumListMap = new HashMap<>();
     public static HashMap<Integer, List<Song>> albumSongListMap = new HashMap<>();
 
     public static HashMap<Integer, List<Song>> rankSongListMap = new HashMap<>();
+
+
+    public static HashMap<Integer, List<Album>> europeAlbumListMap = new HashMap<>();
+    public static HashMap<Integer, List<Song>> europeAlbumSongListMap = new HashMap<>();
 }

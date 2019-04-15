@@ -6,6 +6,9 @@ import com.kfit.crawl.bean.AlbumInfo.AlbumInfoBean;
 import com.kfit.crawl.bean.AlbumList.AlbumListBean;
 import com.kfit.crawl.bean.AlbumList.Data;
 import com.kfit.crawl.bean.AlbumSongList.AlbumSongListBean;
+import com.kfit.crawl.bean.europ.AlbumInfo;
+import com.kfit.crawl.bean.europ.EuropAlbumListResopnse;
+import com.kfit.crawl.bean.europ.EuropSongListResponse;
 import com.kfit.crawl.bean.rankList.RankResponseBean;
 import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
@@ -134,5 +137,46 @@ public class AcquireDataTool {
         return null;
     }
 
+
+    static public int getEuroAlbumInfo(int id) {
+        try {
+            Call<AlbumInfo> call = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getEuroAlbumInfo(id);
+            Response<AlbumInfo> rankSongListBean = call.execute();
+            if (rankSongListBean.isSuccessful() && rankSongListBean.body() != null && rankSongListBean.body().getData() != null) {
+                return rankSongListBean.body().getData().getAlbum_tag_id();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    static public List<EuropAlbumListResopnse.DataBean.InfoBean> getEuroAlbumList(int id, int pageSize) {
+        try {
+            Call<EuropAlbumListResopnse> call = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getEuroAlbumList(id, pageSize);
+            Response<EuropAlbumListResopnse> rankSongListBean = call.execute();
+            if (rankSongListBean.isSuccessful() && rankSongListBean.body() != null && rankSongListBean.body().getData() != null
+                    && rankSongListBean.body().getData().getInfo() != null) {
+                return rankSongListBean.body().getData().getInfo();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static public List<EuropSongListResponse.DataBean.InfoBean> getEuroAlbumSongList(int id,  int pageSize) {
+        try {
+            Call<EuropSongListResponse> call = HttpUtil.getApiService(MusicApi.HOST_COMMON, null).getEuroAlbumSongList(id, pageSize);
+            Response<EuropSongListResponse> rankSongListBean = call.execute();
+            if (rankSongListBean.isSuccessful() && rankSongListBean.body() != null && rankSongListBean.body().getData() != null
+                    && rankSongListBean.body().getData().getInfo() != null) {
+                return rankSongListBean.body().getData().getInfo();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

@@ -3,6 +3,9 @@ package com.kfit.crawl.api;
 import com.kfit.crawl.bean.AlbumInfo.AlbumInfoBean;
 import com.kfit.crawl.bean.AlbumList.AlbumListBean;
 import com.kfit.crawl.bean.AlbumSongList.AlbumSongListBean;
+import com.kfit.crawl.bean.europ.AlbumInfo;
+import com.kfit.crawl.bean.europ.EuropAlbumListResopnse;
+import com.kfit.crawl.bean.europ.EuropSongListResponse;
 import com.kfit.crawl.bean.rankList.RankResponseBean;
 import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
@@ -85,4 +88,31 @@ public interface MusicApi {
      */
     @GET("/api/v3/rank/song?area_code=1&version=9156&ranktype=1&plat=0&page=1&pagesize=100&with_res_tag=1")
     Call<RankSongListBean> getRankSongs(@Query("rankid") int rankId, @Query("volid") int volId);
+
+    /**
+     * 获取欧美各类风格音乐专辑信息 (1051 流行， 1065乡村)
+     * http://mobilecdn.kugou.com/api/v3/tag/info?&id=1051&apiver=2
+     *
+     * @return
+     */
+    @GET("/api/v3/tag/info?apiver=2")
+    Call<AlbumInfo> getEuroAlbumInfo(@Query("id") int id);
+
+    /**
+     * 获取欧美各类风格音乐专辑列表 （tagid 从上面接口返回找到）
+     * http://mobilecdn.kugou.com/api/v3/tag/albumList&area_code=1&page=1&version=9156&pagesize=30&sort=2&plat=0
+     *
+     * @return
+     */
+    @GET("/api/v3/tag/albumList&area_code=1&page=1&version=9156&sort=2&plat=0")
+    Call<EuropAlbumListResopnse> getEuroAlbumList(@Query("tagid") int id, @Query("pagesize") int pageSize);
+
+
+    /**
+     * 获取欧美各类风格音乐专辑下歌曲列表 （albumid 从上面接口返回找到）
+     * http://mobilecdn.kugou.com/api/v3/album/song?version=9156&albumid=11919297&plat=0&pagesize=100&area_code=1&page=1&with_res_tag=1
+     * @return
+     */
+    @GET("/api/v3/album/song?version=9156&plat=0&page=1")
+    Call<EuropSongListResponse> getEuroAlbumSongList(@Query("albumid") int id, @Query("pagesize") int pageSize);
 }

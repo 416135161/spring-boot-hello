@@ -2,6 +2,7 @@ package com.kfit.music.scheduled;
 
 import com.kfit.music.bean.Album;
 import com.kfit.music.service.AlbumService;
+import com.kfit.music.service.EuropeService;
 import com.kfit.music.service.RankService;
 import com.kfit.music.tools.Contants;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,8 @@ public class ScheduledTasks {
 
     @Resource
     private AlbumService albumService;
+    @Resource
+    private EuropeService europeService;
 
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -28,7 +31,7 @@ public class ScheduledTasks {
         System.out.println("现在时间：" + dateFormat.format(new Date()));
     }
 
-    @Scheduled(initialDelay = 5000, fixedRate = 60 * 60 * 1000)
+    @Scheduled(initialDelay = 5000, fixedRate = 6 * 60 * 60 * 1000)
     public void prepareData() {
 
         rankService.getRankSongs(Contants.US_HOT);
@@ -48,6 +51,20 @@ public class ScheduledTasks {
         if (Contants.albumListMap != null && Contants.albumListMap.get(Contants.FROM_JAPAN) != null) {
             for (Album album : Contants.albumListMap.get(Contants.FROM_JAPAN)) {
                 albumService.getRemoteAlbumSongs(album.getId());
+            }
+        }
+
+        europeService.getRemoteAlbums(Contants.EUROP_POP, 30);
+        if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_POP) != null) {
+            for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_POP)) {
+                europeService.getRemoteAlbumSongs(album.getId());
+            }
+        }
+
+        europeService.getRemoteAlbums(Contants.EUROP_COUNTRY, 30);
+        if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY) != null) {
+            for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY)) {
+                europeService.getRemoteAlbumSongs(album.getId());
             }
         }
     }
