@@ -54,14 +54,14 @@ public class ScheduledTasks {
             }
         }
 
-        europeService.getRemoteAlbums(Contants.EUROP_POP, 30);
+        europeService.getRemoteAlbums(Contants.EUROP_POP, 50);
         if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_POP) != null) {
             for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_POP)) {
                 europeService.getRemoteAlbumSongs(album.getId());
             }
         }
 
-        europeService.getRemoteAlbums(Contants.EUROP_COUNTRY, 30);
+        europeService.getRemoteAlbums(Contants.EUROP_COUNTRY, 50);
         if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY) != null) {
             for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY)) {
                 europeService.getRemoteAlbumSongs(album.getId());
