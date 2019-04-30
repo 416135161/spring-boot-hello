@@ -62,7 +62,9 @@ public class MusicController {
         } else {
             return new ArrayList<>();
         }
-        return rankService.getRankSongs(rankId);
+
+        List<Song> songList = rankService.getRankSongs(rankId);
+        return songList.size() > 40 ? songList.subList(0, 40) : songList;
     }
 
 
@@ -76,7 +78,9 @@ public class MusicController {
         } else {
             return new ArrayList<>();
         }
-        return rankService.getRankSongs(rankId);
+        List<Song> songList = rankService.getRankSongs(rankId);
+
+        return songList.size() > 40 ? songList.subList(0, 40) : songList;
     }
 
     @RequestMapping(value = "europe/albums", method = RequestMethod.GET)

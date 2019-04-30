@@ -28,6 +28,8 @@ public class Contants {
      */
     public static final int EUROP_POP = 1051;
     public static final int EUROP_COUNTRY = 1065;
+    public static final int EUROP_ELECTRONIC = 1053;
+    public static final int EUROP_ROCK = 1055;
 
     public static HashMap<Integer, List<Album>> albumListMap = new HashMap<>();
     public static HashMap<Integer, List<Song>> albumSongListMap = new HashMap<>();

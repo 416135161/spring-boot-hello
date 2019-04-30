@@ -19,8 +19,6 @@ public class SongTool {
                 item.setImgUrl(song.getImgUrl());
                 item.setSingerName(song.getSingerName());
                 item.setSongName(song.getSongName());
-                item.setDuration(song.getDuration());
-                item.setPlayUrl(song.getPlayUrl());
                 newSongList.add(item);
             }
         }

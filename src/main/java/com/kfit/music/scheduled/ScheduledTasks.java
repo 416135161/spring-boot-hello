@@ -31,7 +31,7 @@ public class ScheduledTasks {
         System.out.println("现在时间：" + dateFormat.format(new Date()));
     }
 
-    @Scheduled(initialDelay = 5000, fixedRate = 6 * 60 * 60 * 1000)
+    @Scheduled(initialDelay = 5000, fixedRate = 12 * 60 * 60 * 1000)
     public void prepareData() {
 
         rankService.getRankSongs(Contants.US_HOT);
@@ -54,6 +54,7 @@ public class ScheduledTasks {
             }
         }
 
+        //获取流行音乐
         europeService.getRemoteAlbums(Contants.EUROP_POP, 50);
         if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_POP) != null) {
             for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_POP)) {
@@ -61,9 +62,26 @@ public class ScheduledTasks {
             }
         }
 
+        //获取乡村音乐
         europeService.getRemoteAlbums(Contants.EUROP_COUNTRY, 50);
         if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY) != null) {
             for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_COUNTRY)) {
+                europeService.getRemoteAlbumSongs(album.getId());
+            }
+        }
+
+        //获取电音
+        europeService.getRemoteAlbums(Contants.EUROP_ELECTRONIC, 50);
+        if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_ELECTRONIC) != null) {
+            for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_ELECTRONIC)) {
+                europeService.getRemoteAlbumSongs(album.getId());
+            }
+        }
+
+        //获取摇滚音乐
+        europeService.getRemoteAlbums(Contants.EUROP_ROCK, 50);
+        if (Contants.europeAlbumListMap != null && Contants.europeAlbumListMap.get(Contants.EUROP_ROCK) != null) {
+            for (Album album : Contants.europeAlbumListMap.get(Contants.EUROP_ROCK)) {
                 europeService.getRemoteAlbumSongs(album.getId());
             }
         }
