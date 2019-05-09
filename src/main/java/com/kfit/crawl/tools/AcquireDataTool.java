@@ -24,7 +24,7 @@ public class AcquireDataTool {
 
     static public SongDetailBean getSongDetail(String hash) {
         try {
-            Call<SongDetailBean> call = HttpUtil.getApiService(MusicApi.HOST_GET_SONG, null).getSongDetail(hash);
+            Call<SongDetailBean> call = HttpUtil.getApiService(MusicApi.HOST_GET_SONG, new DetailIntercepter()).getSongDetail(hash);
             Response<SongDetailBean> response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
