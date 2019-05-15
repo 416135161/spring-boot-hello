@@ -13,6 +13,7 @@ import com.kfit.crawl.bean.rankList.RankResponseBean;
 import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
 import com.kfit.crawl.bean.songDetail.SongDetailBean;
+import com.kfit.music.bean.Song;
 import com.kfit.music.tools.Contants;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -26,6 +27,21 @@ public class AcquireDataTool {
         try {
             Call<SongDetailBean> call = HttpUtil.getApiService(MusicApi.HOST_GET_SONG, new DetailIntercepter()).getSongDetail(hash);
             Response<SongDetailBean> response = call.execute();
+            if (!response.isSuccessful()) {
+                return null;
+            } else {
+                return response.body();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static public Song getSongDetail2(String hash) {
+        try {
+            Call<Song> call = HttpUtil.getApiService(MusicApi.HOST_LIUJIONG, null).getSongDetail2(hash);
+            Response<Song> response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
             } else {

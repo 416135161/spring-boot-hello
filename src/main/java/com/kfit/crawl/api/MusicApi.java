@@ -10,6 +10,7 @@ import com.kfit.crawl.bean.rankList.RankResponseBean;
 import com.kfit.crawl.bean.ranksongs.RankSongListBean;
 import com.kfit.crawl.bean.search.SearchResponseBean;
 import com.kfit.crawl.bean.songDetail.SongDetailBean;
+import com.kfit.music.bean.Song;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -17,6 +18,7 @@ import retrofit2.http.Query;
 public interface MusicApi {
     String HOST_COMMON = "http://mobilecdn.kugou.com";
     String HOST_GET_SONG = "http://www.kugou.com";
+    String HOST_LIUJIONG = "http://101.200.200.156:8080";
 
 
     /**
@@ -37,7 +39,8 @@ public interface MusicApi {
     @GET("/yy/index.php?r=play/getdata")
     Call<SongDetailBean> getSongDetail(@Query("hash") String hash);
 
-
+    @GET("/music/detail")
+    Call<Song> getSongDetail2(@Query("hash") String hash);
     //
 
     /**

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/music")
 public class MusicController {
 
     @Resource
@@ -38,6 +39,7 @@ public class MusicController {
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public Song getSongDetail(@RequestParam("hash") String hash) {
         return Transform.detailResponse2Song(AcquireDataTool.getSongDetail(hash));
+//        return AcquireDataTool.getSongDetail2(hash);
     }
 
 
