@@ -6,6 +6,7 @@ import com.kfit.music.bean.Song;
 import com.kfit.music.service.AlbumService;
 import com.kfit.music.service.EuropeService;
 import com.kfit.music.service.RankService;
+import com.kfit.music.service.SaveService;
 import com.kfit.music.tools.Contants;
 import com.kfit.music.tools.Transform;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/music")
+//@RequestMapping("/music")
 public class MusicController {
 
     @Resource
@@ -29,6 +30,9 @@ public class MusicController {
 
     @Resource
     private EuropeService europeService;
+
+    @Resource
+    private SaveService saveService;
 
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -51,7 +55,11 @@ public class MusicController {
 
     @RequestMapping(value = "/album/songs", method = RequestMethod.GET)
     public List<Song> getAlbumSongs(@RequestParam(value = "id") int specialId) {
-        return albumService.getAlbumSongs(specialId);
+        List<Song> songList = albumService.getAlbumSongs(specialId);
+        for (Song song : songList) {
+            song.setImgUrl(Contants.songImgMap.get(song.getHash()));
+        }
+        return songList;
     }
 
     @RequestMapping(value = "/hot", method = RequestMethod.GET)
@@ -66,6 +74,9 @@ public class MusicController {
         }
 
         List<Song> songList = rankService.getRankSongs(rankId);
+        for (Song song : songList) {
+            song.setImgUrl(Contants.songImgMap.get(song.getHash()));
+        }
         return songList.size() > 40 ? songList.subList(0, 40) : songList;
     }
 
@@ -81,7 +92,9 @@ public class MusicController {
             return new ArrayList<>();
         }
         List<Song> songList = rankService.getRankSongs(rankId);
-
+        for (Song song : songList) {
+            song.setImgUrl(Contants.songImgMap.get(song.getHash()));
+        }
         return songList.size() > 40 ? songList.subList(0, 40) : songList;
     }
 
@@ -93,8 +106,15 @@ public class MusicController {
 
     @RequestMapping(value = "europe/album/songs", method = RequestMethod.GET)
     public List<Song> getEuropeAlbumSongs(@RequestParam(value = "id") int id) {
-        return europeService.getAlbumSongs(id);
+        List<Song> songList = europeService.getAlbumSongs(id);
+        for (Song song : songList) {
+            song.setImgUrl(Contants.songImgMap.get(song.getHash()));
+        }
+        return songList;
     }
 
-
+    @RequestMapping(value = "save/img", method = RequestMethod.GET)
+    public void getEuropeAlbumSongs(@RequestParam(value = "hash", required = false) String hash, @RequestParam(value = "img", required = false) String img) {
+        saveService.saveImg(hash, img);
+    }
 }

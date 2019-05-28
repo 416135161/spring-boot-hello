@@ -39,4 +39,5 @@ public class Contants {
 
     public static HashMap<Integer, List<Album>> europeAlbumListMap = new HashMap<>();
     public static HashMap<Integer, List<Song>> europeAlbumSongListMap = new HashMap<>();
+    public static HashMap<String, String> songImgMap = new HashMap<>();
 }
